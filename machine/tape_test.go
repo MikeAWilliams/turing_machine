@@ -75,4 +75,12 @@ func Test_Practical(t *testing.T) {
 	require.Equal(t, '1', tape2.GetSymbol())
 	tape2 = tape2.Right()
 	require.Equal(t, '0', tape2.GetSymbol())
+
+	require.Equal(t, machine.Schwa, tape.GetSymbol())
+	tape = tape.Left()
+	require.Equal(t, 'z', tape.GetSymbol())
+	tape = tape.Left()
+	require.Equal(t, 'y', tape.GetSymbol())
+	tape = tape.Left()
+	require.Equal(t, 'x', tape.GetSymbol())
 }
