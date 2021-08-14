@@ -57,6 +57,10 @@ func (t Tape) Left() Tape {
 	return result
 }
 
+func (t Tape) NoOp() Tape {
+	return t.copy()
+}
+
 func NewTape() Tape {
 	return Tape{squares: []rune{' '}}
 }

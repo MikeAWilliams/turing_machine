@@ -41,6 +41,10 @@ func Left(t Tape) Tape {
 	return t.Left()
 }
 
+func NoOp(t Tape) Tape {
+	return t.NoOp()
+}
+
 func Print(symbol rune) func(Tape) Tape {
 	return func(t Tape) Tape {
 		return t.Print(symbol)

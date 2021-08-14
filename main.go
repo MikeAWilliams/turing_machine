@@ -26,6 +26,6 @@ func execute100Operations(machine machine.Machine) {
 func main() {
 	fmt.Println("Hello Dr. Turing")
 
-	machine := machine.TuringMachine2()
+	machine := machine.TuringMachine3()
 	execute100Operations(machine)
 }
