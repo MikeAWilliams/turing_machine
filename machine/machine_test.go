@@ -71,13 +71,7 @@ func Test_OneThirdMachineSingleOp(t *testing.T) {
 }
 
 func Test_OneThirdMachineMultiOp(t *testing.T) {
-	m0 := machine.NewMachine("b",
-		[]machine.ConfigOP{
-			machine.NewConfig("b", machine.NewRow("None", machine.NewOperations([]machine.Operation{machine.Print('0'), machine.Right}), "c")),
-			machine.NewConfig("c", machine.NewRow("None", machine.NewOperations([]machine.Operation{machine.Right}), "e")),
-			machine.NewConfig("e", machine.NewRow("None", machine.NewOperations([]machine.Operation{machine.Print('1'), machine.Right}), "f")),
-			machine.NewConfig("f", machine.NewRow("None", machine.NewOperations([]machine.Operation{machine.Right}), "b")),
-		})
+	m0 := machine.TuringMachine1()
 
 	m1, err := m0.Operate()
 	require.NoError(t, err)
