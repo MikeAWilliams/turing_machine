@@ -17,3 +17,12 @@ func Test_SimpleSymbolMatch(t *testing.T) {
 	require.True(t, matcher(machine.Schwa))
 	require.False(t, matcher('a'))
 }
+
+func Test_SetSymbolMatch(t *testing.T) {
+	matcher := machine.SetSymbolMatch([]rune{'a', 'b', machine.Schwa})
+	require.True(t, matcher(machine.Schwa))
+	require.True(t, matcher('a'))
+	require.True(t, matcher('b'))
+
+	require.False(t, matcher('f'))
+}
