@@ -1,7 +1,6 @@
 package machine
 
 import (
-	"errors"
 	"fmt"
 )
 
@@ -33,18 +32,44 @@ type Machine struct {
 
 func (m Machine) Operate() (Machine, error) {
 	if nil != m.midOperationRow {
-		return Machine{}, errors.New("mid operation not implementd")
+		return m.continueOperate()
 	}
-	row, ok := m.rows[m.currentConfiguration]
-	if !ok {
-		return Machine{}, fmt.Errorf("current configuration does not exist in table %v", m.currentConfiguration)
-	}
-	_, newTape, err := row[0].operations.Operate(m.tape)
+
+	return m.freshOperate()
+}
+
+func (m Machine) continueOperate() (Machine, error) {
+	newOp, newTape, err := m.midOperationRow.operations.Operate(m.tape)
 	if nil != err {
 		return Machine{}, fmt.Errorf("performing operation %v", err)
 	}
 
-	return Machine{rows: m.rows, currentConfiguration: row[0].finalConfiguration, midOperationRow: nil, tape: newTape}, nil
+	var newMidOperationPointer *OperationRow
+	newConfiguration := m.midOperationRow.finalConfiguration
+	if !newOp.IsDone() {
+		newMidOperationPointer = &OperationRow{symbol: m.midOperationRow.symbol, operations: newOp, finalConfiguration: m.midOperationRow.finalConfiguration}
+	}
+
+	return Machine{rows: m.rows, currentConfiguration: newConfiguration, midOperationRow: newMidOperationPointer, tape: newTape}, nil
+}
+
+func (m Machine) freshOperate() (Machine, error) {
+	row, ok := m.rows[m.currentConfiguration]
+	if !ok {
+		return Machine{}, fmt.Errorf("current configuration does not exist in table %v", m.currentConfiguration)
+	}
+
+	newOp, newTape, err := row[0].operations.Operate(m.tape)
+	if nil != err {
+		return Machine{}, fmt.Errorf("performing operation %v", err)
+	}
+	var newMidOperationPointer *OperationRow
+	newConfiguration := row[0].finalConfiguration
+	if !newOp.IsDone() {
+		newMidOperationPointer = &OperationRow{symbol: row[0].symbol, operations: newOp, finalConfiguration: row[0].finalConfiguration}
+	}
+
+	return Machine{rows: m.rows, currentConfiguration: newConfiguration, midOperationRow: newMidOperationPointer, tape: newTape}, nil
 }
 
 func (m Machine) TapeAsString() string {
