@@ -78,14 +78,26 @@ func Test_OneThirdMachineSingleOp(t *testing.T) {
 
 func Test_OneThirdMachineMultiOp(t *testing.T) {
 	m0 := machine.TuringMachine1()
+	s := m0.StateReport()
+	require.Equal(t, "b", s.CurrentConfiguration)
+	require.Equal(t, -1, s.OperationRow)
+	require.Equal(t, 0, s.OperationColumn)
 
 	m1, err := m0.Operate()
 	require.NoError(t, err)
 	require.Equal(t, "0", m1.TapeAsString())
+	s = m1.StateReport()
+	require.Equal(t, "b", s.CurrentConfiguration)
+	require.Equal(t, 0, s.OperationRow)
+	require.Equal(t, 1, s.OperationColumn)
 
 	m2, err := m1.Operate()
 	require.NoError(t, err)
 	require.Equal(t, "0 ", m2.TapeAsString())
+	s = m2.StateReport()
+	require.Equal(t, "c", s.CurrentConfiguration)
+	require.Equal(t, -1, s.OperationRow)
+	require.Equal(t, 0, s.OperationColumn)
 
 	m3, err := m2.Operate()
 	require.NoError(t, err)
