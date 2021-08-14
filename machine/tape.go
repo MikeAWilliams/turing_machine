@@ -18,6 +18,13 @@ func (t Tape) expandRight() Tape {
 	return Tape{squares: newSquares, squareIndex: t.squareIndex}
 }
 
+func (t Tape) expandLeft() Tape {
+	newSquares := make([]rune, len(t.squares)+1)
+	copy(newSquares[1:], t.squares)
+	newSquares[0] = ' '
+	return Tape{squares: newSquares, squareIndex: t.squareIndex}
+}
+
 func (t Tape) GetSymbol() rune {
 	return t.squares[t.squareIndex]
 }
@@ -36,6 +43,16 @@ func (t Tape) Right() Tape {
 		result = t.copy()
 	}
 	result.squareIndex++
+	return result
+}
+
+func (t Tape) Left() Tape {
+	var result Tape
+	if 0 == t.squareIndex {
+		result = t.expandLeft()
+	} else {
+		result = t.copy()
+	}
 	return result
 }
 

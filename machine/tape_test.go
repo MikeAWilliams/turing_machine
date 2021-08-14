@@ -31,3 +31,13 @@ func Test_Right(t *testing.T) {
 	require.Equal(t, machine.Schwa, testObject.GetSymbol())
 	require.Equal(t, ' ', newTape.GetSymbol())
 }
+
+func Test_Left(t *testing.T) {
+	testObject := machine.NewTape()
+	testObject = testObject.Print(machine.Schwa)
+
+	newTape := testObject.Left()
+
+	require.Equal(t, machine.Schwa, testObject.GetSymbol())
+	require.Equal(t, ' ', newTape.GetSymbol())
+}
