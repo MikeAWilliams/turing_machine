@@ -38,19 +38,23 @@ func (m Machine) Operate() (Machine, error) {
 	return m.freshOperate()
 }
 
-func (m Machine) continueOperate() (Machine, error) {
-	newOp, newTape, err := m.midOperationRow.operations.Operate(m.tape)
+func (m Machine) operate(row OperationRow) (Machine, error) {
+	newOp, newTape, err := row.operations.Operate(m.tape)
 	if nil != err {
 		return Machine{}, fmt.Errorf("performing operation %v", err)
 	}
 
 	var newMidOperationPointer *OperationRow
-	newConfiguration := m.midOperationRow.finalConfiguration
+	newConfiguration := row.finalConfiguration
 	if !newOp.IsDone() {
-		newMidOperationPointer = &OperationRow{symbol: m.midOperationRow.symbol, operations: newOp, finalConfiguration: m.midOperationRow.finalConfiguration}
+		newMidOperationPointer = &OperationRow{symbol: row.symbol, operations: newOp, finalConfiguration: row.finalConfiguration}
 	}
 
 	return Machine{rows: m.rows, currentConfiguration: newConfiguration, midOperationRow: newMidOperationPointer, tape: newTape}, nil
+}
+
+func (m Machine) continueOperate() (Machine, error) {
+	return m.operate(*m.midOperationRow)
 }
 
 func (m Machine) freshOperate() (Machine, error) {
@@ -59,17 +63,8 @@ func (m Machine) freshOperate() (Machine, error) {
 		return Machine{}, fmt.Errorf("current configuration does not exist in table %v", m.currentConfiguration)
 	}
 
-	newOp, newTape, err := row[0].operations.Operate(m.tape)
-	if nil != err {
-		return Machine{}, fmt.Errorf("performing operation %v", err)
-	}
-	var newMidOperationPointer *OperationRow
-	newConfiguration := row[0].finalConfiguration
-	if !newOp.IsDone() {
-		newMidOperationPointer = &OperationRow{symbol: row[0].symbol, operations: newOp, finalConfiguration: row[0].finalConfiguration}
-	}
-
-	return Machine{rows: m.rows, currentConfiguration: newConfiguration, midOperationRow: newMidOperationPointer, tape: newTape}, nil
+	// todo handle multi row configurations
+	return m.operate(row[0])
 }
 
 func (m Machine) TapeAsString() string {
