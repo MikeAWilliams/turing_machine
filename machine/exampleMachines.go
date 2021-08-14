@@ -29,7 +29,7 @@ func TuringMachine3() Machine {
 	one := SimpleSymbolMatch('1')
 	x := SimpleSymbolMatch('x')
 	schwa := SimpleSymbolMatch(Schwa)
-	any := AnySymbolMatch
+	any := AnyNonBlankSymbolMatch
 	anyZeroOne := SetSymbolMatch([]rune{'0', '1'})
 	return NewMachine("b",
 		[]ConfigOP{

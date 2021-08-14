@@ -8,8 +8,8 @@ func SimpleSymbolMatch(toMatch rune) func(rune) bool {
 	}
 }
 
-func AnySymbolMatch(rune) bool {
-	return true
+func AnyNonBlankSymbolMatch(r rune) bool {
+	return ' ' != r
 }
 
 func SetSymbolMatch(toMatch []rune) func(rune) bool {

@@ -7,8 +7,8 @@ import (
 	"github.com/fatih/color"
 )
 
-func execute100Operations(machine machine.Machine) {
-	for i := 0; i < 100; i++ {
+func executeOperations(machine machine.Machine, n int) {
+	for i := 0; i < n; i++ {
 		state := machine.StateReport()
 		fmt.Printf("%v -%v", i, string(state.Squares[:state.SquareIndex]))
 		redText := color.New(color.FgRed, color.Bold)
@@ -21,11 +21,13 @@ func execute100Operations(machine machine.Machine) {
 		}
 		machine = tmpMachine
 	}
+	fmt.Printf("Done\nFinal Tape\n%v", machine.TapeAsString())
+
 }
 
 func main() {
 	fmt.Println("Hello Dr. Turing")
 
 	machine := machine.TuringMachine3()
-	execute100Operations(machine)
+	executeOperations(machine, 1000)
 }
