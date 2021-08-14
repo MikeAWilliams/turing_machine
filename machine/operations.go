@@ -25,6 +25,10 @@ func (o Operations) Operate(t Tape) (Operations, Tape, error) {
 	return resultOperations, resultTape, nil
 }
 
+func (o Operations) IsDone() bool {
+	return len(o.operations) <= o.currentOperation
+}
+
 func NewOperations(op []Operation) Operations {
 	return Operations{operations: op}
 }

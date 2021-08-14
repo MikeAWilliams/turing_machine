@@ -29,6 +29,16 @@ func Test_PrintZeroOne(t *testing.T) {
 	doATest()
 }
 
+func Test_OperationsIsDone(t *testing.T) {
+	operations := machine.NewOperations([]machine.Operation{machine.Print('0')})
+	tape := machine.NewTape()
+
+	newOperations, tape, err := operations.Operate(tape)
+	require.NoError(t, err)
+	require.False(t, operations.IsDone())
+	require.True(t, newOperations.IsDone())
+}
+
 func Test_OperateToManyTimes(t *testing.T) {
 	operations := machine.NewOperations([]machine.Operation{machine.Print('0')})
 	tape := machine.NewTape()
