@@ -10,3 +10,15 @@ func TuringMachine1() Machine {
 			NewConfig("f", NewRow(none, NewOperations([]Operation{Right}), "b")),
 		})
 }
+
+func TuringMachine2() Machine {
+	none := SimpleSymbolMatch(' ')
+	zero := SimpleSymbolMatch('0')
+	one := SimpleSymbolMatch('1')
+	return NewMachine("b",
+		[]ConfigOP{
+			NewConfig("b", NewRow(none, NewOperations([]Operation{Print('0')}), "b")),
+			NewConfig("b", NewRow(zero, NewOperations([]Operation{Right, Right, Print('1')}), "b")),
+			NewConfig("b", NewRow(one, NewOperations([]Operation{Right, Right, Print('0')}), "b")),
+		})
+}

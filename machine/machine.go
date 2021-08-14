@@ -57,14 +57,26 @@ func (m Machine) continueOperate() (Machine, error) {
 	return m.operate(*m.midOperationRow)
 }
 
-func (m Machine) freshOperate() (Machine, error) {
-	row, ok := m.rows[m.currentConfiguration]
-	if !ok {
-		return Machine{}, fmt.Errorf("current configuration does not exist in table %v", m.currentConfiguration)
+func (m Machine) selectRowByCurrentSquare(rows []OperationRow) (OperationRow, error) {
+	currentSymbol := m.tape.GetSymbol()
+	for _, row := range rows {
+		if row.symbolMatch(currentSymbol) {
+			return row, nil
+		}
 	}
+	return OperationRow{}, fmt.Errorf("row not found matching current square (%v)", string(currentSymbol))
+}
 
-	// todo handle multi row configurations
-	return m.operate(row[0])
+func (m Machine) freshOperate() (Machine, error) {
+	rows, ok := m.rows[m.currentConfiguration]
+	if !ok {
+		return Machine{}, fmt.Errorf("current configuration (%v) does not exist in table", m.currentConfiguration)
+	}
+	matchingRow, err := m.selectRowByCurrentSquare(rows)
+	if nil != err {
+		return Machine{}, err
+	}
+	return m.operate(matchingRow)
 }
 
 func (m Machine) TapeAsString() string {
