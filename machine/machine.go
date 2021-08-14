@@ -5,13 +5,13 @@ import (
 )
 
 type OperationRow struct {
-	symbol             string
+	symbolMatch        SymbolMatch
 	operations         Operations
 	finalConfiguration string
 }
 
-func NewRow(symbol string, operations Operations, finalConfiguartion string) OperationRow {
-	return OperationRow{symbol: symbol, operations: operations, finalConfiguration: finalConfiguartion}
+func NewRow(symbol SymbolMatch, operations Operations, finalConfiguartion string) OperationRow {
+	return OperationRow{symbolMatch: symbol, operations: operations, finalConfiguration: finalConfiguartion}
 }
 
 type ConfigOP struct {
@@ -47,7 +47,7 @@ func (m Machine) operate(row OperationRow) (Machine, error) {
 	var newMidOperationPointer *OperationRow
 	newConfiguration := row.finalConfiguration
 	if !newOp.IsDone() {
-		newMidOperationPointer = &OperationRow{symbol: row.symbol, operations: newOp, finalConfiguration: row.finalConfiguration}
+		newMidOperationPointer = &OperationRow{symbolMatch: row.symbolMatch, operations: newOp, finalConfiguration: row.finalConfiguration}
 	}
 
 	return Machine{rows: m.rows, currentConfiguration: newConfiguration, midOperationRow: newMidOperationPointer, tape: newTape}, nil

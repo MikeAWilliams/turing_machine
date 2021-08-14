@@ -9,14 +9,15 @@ import (
 )
 
 func Test_OneThirdMachineSingleOp(t *testing.T) {
+	none := machine.SimpleSymbolMatch(' ')
 	m0 := machine.NewMachine("b",
 		[]machine.ConfigOP{
-			machine.NewConfig("b", machine.NewRow("None", machine.NewOperations([]machine.Operation{machine.Print('0')}), "b1")),
-			machine.NewConfig("b1", machine.NewRow("None", machine.NewOperations([]machine.Operation{machine.Right}), "c")),
-			machine.NewConfig("c", machine.NewRow("None", machine.NewOperations([]machine.Operation{machine.Right}), "e")),
-			machine.NewConfig("e", machine.NewRow("None", machine.NewOperations([]machine.Operation{machine.Print('1')}), "e1")),
-			machine.NewConfig("e1", machine.NewRow("None", machine.NewOperations([]machine.Operation{machine.Right}), "f")),
-			machine.NewConfig("f", machine.NewRow("None", machine.NewOperations([]machine.Operation{machine.Right}), "b")),
+			machine.NewConfig("b", machine.NewRow(none, machine.NewOperations([]machine.Operation{machine.Print('0')}), "b1")),
+			machine.NewConfig("b1", machine.NewRow(none, machine.NewOperations([]machine.Operation{machine.Right}), "c")),
+			machine.NewConfig("c", machine.NewRow(none, machine.NewOperations([]machine.Operation{machine.Right}), "e")),
+			machine.NewConfig("e", machine.NewRow(none, machine.NewOperations([]machine.Operation{machine.Print('1')}), "e1")),
+			machine.NewConfig("e1", machine.NewRow(none, machine.NewOperations([]machine.Operation{machine.Right}), "f")),
+			machine.NewConfig("f", machine.NewRow(none, machine.NewOperations([]machine.Operation{machine.Right}), "b")),
 		})
 
 	m1, err := m0.Operate()
