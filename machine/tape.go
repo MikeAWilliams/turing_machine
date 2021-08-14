@@ -52,6 +52,7 @@ func (t Tape) Left() Tape {
 		result = t.expandLeft()
 	} else {
 		result = t.copy()
+		result.squareIndex--
 	}
 	return result
 }

@@ -41,3 +41,38 @@ func Test_Left(t *testing.T) {
 	require.Equal(t, machine.Schwa, testObject.GetSymbol())
 	require.Equal(t, ' ', newTape.GetSymbol())
 }
+
+func Test_Practical(t *testing.T) {
+	tape := machine.NewTape()
+	tape = tape.Print(machine.Schwa)
+	tape = tape.Left()
+	tape = tape.Print('z')
+	tape = tape.Left()
+	tape = tape.Print('y')
+	tape = tape.Left()
+	tape = tape.Print('x')
+
+	require.Equal(t, 'x', tape.GetSymbol())
+	tape = tape.Right()
+	require.Equal(t, 'y', tape.GetSymbol())
+	tape = tape.Right()
+	require.Equal(t, 'z', tape.GetSymbol())
+	tape = tape.Right()
+	require.Equal(t, machine.Schwa, tape.GetSymbol())
+
+	tape2 := tape.Print('0')
+	tape2 = tape2.Left()
+	tape2 = tape2.Print('1')
+	tape2 = tape2.Left()
+	tape2 = tape2.Print('2')
+	tape2 = tape2.Left()
+	tape2 = tape2.Print('3')
+
+	require.Equal(t, '3', tape2.GetSymbol())
+	tape2 = tape2.Right()
+	require.Equal(t, '2', tape2.GetSymbol())
+	tape2 = tape2.Right()
+	require.Equal(t, '1', tape2.GetSymbol())
+	tape2 = tape2.Right()
+	require.Equal(t, '0', tape2.GetSymbol())
+}
