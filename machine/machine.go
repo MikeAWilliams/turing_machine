@@ -1,6 +1,9 @@
 package machine
 
-import "errors"
+import (
+	"errors"
+	"fmt"
+)
 
 type OperationRow struct {
 	symbol             string
@@ -29,15 +32,31 @@ type Machine struct {
 }
 
 func (m Machine) Operate() (Machine, error) {
-	return Machine{}, errors.New("not implementd")
+	if nil != m.midOperationRow {
+		return Machine{}, errors.New("mid operation not implementd")
+	}
+	row, ok := m.rows[m.currentConfiguration]
+	if !ok {
+		return Machine{}, fmt.Errorf("current configuration does not exist in table %v", m.currentConfiguration)
+	}
+	_, newTape, err := row[0].operations.Operate(m.tape)
+	if nil != err {
+		return Machine{}, fmt.Errorf("performing operation %v", err)
+	}
+
+	return Machine{rows: m.rows, currentConfiguration: row[0].finalConfiguration, midOperationRow: nil, tape: newTape}, nil
+}
+
+func (m Machine) TapeAsString() string {
+	return string(m.tape.squares)
 }
 
 func NewMachine(initialConfiguration string, rows []ConfigOP) Machine {
 	result := Machine{}
-	result.currentConfiguration = initialConfiguration
-	result.tape = NewTape()
-	result.midOperationRow = nil
 	result.rows = map[string][]OperationRow{}
+	result.currentConfiguration = initialConfiguration
+	result.midOperationRow = nil
+	result.tape = NewTape()
 
 	for _, row := range rows {
 		existingRow, ok := result.rows[row.configuration]
