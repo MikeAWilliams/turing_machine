@@ -15,9 +15,19 @@ func Test_NewTape(t *testing.T) {
 
 func Test_Print(t *testing.T) {
 	testObject := machine.NewTape()
-	require.Equal(t, ' ', testObject.GetSymbol())
 
 	newTape := testObject.Print(machine.Schwa)
+
 	require.Equal(t, ' ', testObject.GetSymbol())
 	require.Equal(t, machine.Schwa, newTape.GetSymbol())
+}
+
+func Test_Right(t *testing.T) {
+	testObject := machine.NewTape()
+	testObject = testObject.Print(machine.Schwa)
+
+	newTape := testObject.Right()
+
+	require.Equal(t, machine.Schwa, testObject.GetSymbol())
+	require.Equal(t, ' ', newTape.GetSymbol())
 }
