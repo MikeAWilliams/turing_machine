@@ -10,10 +10,16 @@ import (
 func executeOperations(machine machine.Machine, n int) {
 	for i := 0; i < n; i++ {
 		state := machine.StateReport()
-		fmt.Printf("%v -%v", i, string(state.Squares[:state.SquareIndex]))
+		fmt.Printf("%v ", i)
+		for j := 0; j < state.SquareIndex; j++ {
+			fmt.Printf("|%v", string(state.Squares[j]))
+		}
 		redText := color.New(color.FgRed, color.Bold)
-		redText.Printf("|%v|", string(state.Squares[state.SquareIndex:state.SquareIndex+1]))
-		fmt.Printf("%v- %v %v %v \n", string(state.Squares[state.SquareIndex+1:]), state.CurrentConfiguration, state.OperationRow, state.OperationColumn)
+		redText.Printf("|%v|", string(state.Squares[state.SquareIndex]))
+		for j := state.SquareIndex + 1; j < len(state.Squares); j++ {
+			fmt.Printf("%v|", string(state.Squares[j]))
+		}
+		fmt.Printf(" %v %v %v \n", state.CurrentConfiguration, state.OperationRow, state.OperationColumn)
 
 		tmpMachine, err := machine.Operate()
 		if nil != err {
