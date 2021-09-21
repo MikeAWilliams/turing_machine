@@ -12,12 +12,16 @@ func executeOperations(machine machine.Machine, n int) {
 		state := machine.StateReport()
 		fmt.Printf("%v ", i)
 		for j := 0; j < state.SquareIndex; j++ {
-			fmt.Printf("|%v", string(state.Squares[j]))
+			fmt.Printf("%v", string(state.Squares[j]))
 		}
 		redText := color.New(color.FgRed, color.Bold)
-		redText.Printf("|%v|", string(state.Squares[state.SquareIndex]))
+		currentSquare := state.Squares[state.SquareIndex]
+		if ' ' == currentSquare {
+			currentSquare = '_'
+		}
+		redText.Printf("%v", string(currentSquare))
 		for j := state.SquareIndex + 1; j < len(state.Squares); j++ {
-			fmt.Printf("%v|", string(state.Squares[j]))
+			fmt.Printf("%v", string(state.Squares[j]))
 		}
 		fmt.Printf(" %v %v %v \n", state.CurrentConfiguration, state.OperationRow, state.OperationColumn)
 
