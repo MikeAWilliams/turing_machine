@@ -50,6 +50,20 @@ func Test_ParseOpreration_Invalid(t *testing.T) {
 	require.Error(t, err)
 }
 
+func Test_ParseOperations_General(t *testing.T) {
+	operations, err := parseOperations("L,R")
+
+	require.NoError(t, err)
+	require.Equal(t, 2, len(operations))
+	require.Equal(t, getOperationName(machine.Left), getOperationName(operations[0]))
+	require.Equal(t, getOperationName(machine.Right), getOperationName(operations[1]))
+}
+
+func Test_ParseOperations_Invalid(t *testing.T) {
+	_, err := parseOperations("NotValidOperations")
+	require.Error(t, err)
+}
+
 func getOperationName(operation machine.Operation) string {
 	return runtime.FuncForPC(reflect.ValueOf(operation).Pointer()).Name()
 }

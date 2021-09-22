@@ -2,6 +2,7 @@ package parse
 
 import (
 	"errors"
+	"strings"
 
 	"github.com/MikeAWilliams/turing_machine/machine"
 )
@@ -22,4 +23,17 @@ func parseOperation(op string) (machine.Operation, error) {
 		return machine.Print(opRunes[1]), nil
 	}
 	return nil, errors.New("Not implmemented")
+}
+
+func parseOperations(operations string) ([]machine.Operation, error) {
+	opStrings := strings.Split(operations, ",")
+	result := make([]machine.Operation, len(opStrings))
+	for index, op := range opStrings {
+		thisOp, err := parseOperation(op)
+		if nil != err {
+			return []machine.Operation{}, err
+		}
+		result[index] = thisOp
+	}
+	return result, nil
 }
