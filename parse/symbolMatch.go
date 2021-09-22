@@ -15,6 +15,9 @@ func parseSymbolMatch(text string) (machine.SymbolMatch, error) {
 	if strings.EqualFold("none", text) {
 		return machine.SimpleSymbolMatch(' '), nil
 	}
+	if strings.EqualFold("any", text) {
+		return machine.AnyNonBlankSymbolMatch, nil
+	}
 
 	runes := []rune(text)
 	if 1 == len(runes) {

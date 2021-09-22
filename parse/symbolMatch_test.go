@@ -25,6 +25,22 @@ func Test_SymbolMatch_None(t *testing.T) {
 	matcher, err = parseSymbolMatch("None")
 	require.NoError(t, err)
 	requireMatcherResult(t, ' ', '1', matcher)
+
+	matcher, err = parseSymbolMatch("NONE")
+	require.NoError(t, err)
+	requireMatcherResult(t, ' ', '1', matcher)
+}
+
+func Test_SymbolMatch_Any(t *testing.T) {
+	matcher, err := parseSymbolMatch("Any")
+	require.NoError(t, err)
+	requireMatcherResult(t, '1', ' ', matcher)
+	requireMatcherResult(t, 't', ' ', matcher)
+
+	matcher, err = parseSymbolMatch("ANY")
+	require.NoError(t, err)
+	requireMatcherResult(t, '1', ' ', matcher)
+	requireMatcherResult(t, 't', ' ', matcher)
 }
 
 func Test_SymbolMatch_Error(t *testing.T) {
