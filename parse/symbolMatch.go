@@ -43,7 +43,20 @@ func parseSymbolMatch(text string) (machine.SymbolMatch, error) {
 				return nil, errors.New("invalid any statement, right of or invalid")
 			}
 			return machine.SetSymbolMatch(append(firstRunes, secondRunes...)), nil
+		} else {
+			betweenParens := text[setStartIndex+1 : setStopIndex]
+			split := strings.Split(betweenParens, ",")
+			toMatch := make([]rune, len(split))
+			for splitIndex, symbol := range split {
+				symbolRunes := []rune(strings.TrimSpace(symbol))
+				if 1 != len(symbolRunes) {
+					return nil, errors.New("invalid any statement, more than one character between ,")
+				}
+				toMatch[splitIndex] = symbolRunes[0]
+			}
+			return machine.SetSymbolMatch(toMatch), nil
 		}
+
 	}
 
 	runes := []rune(text)

@@ -55,6 +55,14 @@ func Test_SymbolMatch_AnyOr(t *testing.T) {
 	requireMatcherResult(t, 'a', ' ', matcher)
 }
 
+func Test_SymbolMatch_AnySet(t *testing.T) {
+	matcher, err := parseSymbolMatch("Any (1,2,3)")
+	require.NoError(t, err)
+	requireMatcherResult(t, '1', ' ', matcher)
+	requireMatcherResult(t, '2', ' ', matcher)
+	requireMatcherResult(t, '3', ' ', matcher)
+}
+
 func Test_SymbolMatch_Error(t *testing.T) {
 	_, err := parseSymbolMatch("INVALID")
 	require.Error(t, err)
