@@ -15,5 +15,9 @@ func parseOperation(op string) (machine.Operation, error) {
 	case "L":
 		return machine.Left, nil
 	}
+	opRunes := []rune(op)
+	if 2 == len(opRunes) && 'P' == opRunes[0] {
+		return machine.Print(opRunes[1]), nil
+	}
 	return nil, errors.New("Not implmemented")
 }

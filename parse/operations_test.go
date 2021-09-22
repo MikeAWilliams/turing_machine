@@ -25,6 +25,14 @@ func Test_ParseOpreration_RightLeftNoOp(t *testing.T) {
 	require.Equal(t, getOperationName(machine.NoOp), getOperationName(op))
 }
 
+func Test_ParseOpreration_Print(t *testing.T) {
+	op, err := parseOperation("Px")
+	require.NoError(t, err)
+
+	operatedTape := op(machine.NewTape())
+	require.Equal(t, "x", string(operatedTape.GetSymbol()))
+}
+
 func Test_ParseOpreration_Invalid(t *testing.T) {
 	_, err := parseOperation("NotValidOperation")
 	require.Error(t, err)
