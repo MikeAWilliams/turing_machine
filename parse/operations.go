@@ -14,6 +14,8 @@ func parseOperation(op string) (machine.Operation, error) {
 		return machine.Right, nil
 	case "L":
 		return machine.Left, nil
+	case "E":
+		return machine.Print(' '), nil
 	}
 	opRunes := []rune(op)
 	if 2 == len(opRunes) && 'P' == opRunes[0] {
