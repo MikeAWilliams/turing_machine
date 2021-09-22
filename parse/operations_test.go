@@ -28,21 +28,15 @@ func Test_ParseOpreration_RightLeftNoOp(t *testing.T) {
 func Test_ParseOpreration_Print(t *testing.T) {
 	op, err := parseOperation("Px")
 	require.NoError(t, err)
-
-	operatedTape := op(machine.NewTape())
-	require.Equal(t, "x", string(operatedTape.GetSymbol()))
+	requireTapeRuneAfterOp(t, "x", op)
 
 	op, err = parseOperation("P ")
 	require.NoError(t, err)
-
-	operatedTape = op(machine.NewTape())
-	require.Equal(t, " ", string(operatedTape.GetSymbol()))
+	requireTapeRuneAfterOp(t, " ", op)
 
 	op, err = parseOperation("E")
 	require.NoError(t, err)
-
-	operatedTape = op(machine.NewTape())
-	require.Equal(t, " ", string(operatedTape.GetSymbol()))
+	requireTapeRuneAfterOp(t, " ", op)
 }
 
 func Test_ParseOpreration_Invalid(t *testing.T) {
@@ -51,12 +45,16 @@ func Test_ParseOpreration_Invalid(t *testing.T) {
 }
 
 func Test_ParseOperations_General(t *testing.T) {
-	operations, err := parseOperations("L,R")
+	operations, err := parseOperations("L,R,,Px,P ,")
 
 	require.NoError(t, err)
-	require.Equal(t, 2, len(operations))
+	require.Equal(t, 6, len(operations))
 	require.Equal(t, getOperationName(machine.Left), getOperationName(operations[0]))
 	require.Equal(t, getOperationName(machine.Right), getOperationName(operations[1]))
+	require.Equal(t, getOperationName(machine.NoOp), getOperationName(operations[2]))
+	requireTapeRuneAfterOp(t, "x", operations[3])
+	requireTapeRuneAfterOp(t, " ", operations[4])
+	require.Equal(t, getOperationName(machine.NoOp), getOperationName(operations[5]))
 }
 
 func Test_ParseOperations_Invalid(t *testing.T) {
@@ -66,4 +64,10 @@ func Test_ParseOperations_Invalid(t *testing.T) {
 
 func getOperationName(operation machine.Operation) string {
 	return runtime.FuncForPC(reflect.ValueOf(operation).Pointer()).Name()
+}
+
+func requireTapeRuneAfterOp(t *testing.T, expected string, op machine.Operation) {
+	initialTape := machine.Print(',')(machine.NewTape())
+	operatedTape := op(initialTape)
+	require.Equal(t, expected, string(operatedTape.GetSymbol()))
 }
