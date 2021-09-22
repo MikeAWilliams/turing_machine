@@ -31,6 +31,12 @@ func Test_ParseOpreration_Print(t *testing.T) {
 
 	operatedTape := op(machine.NewTape())
 	require.Equal(t, "x", string(operatedTape.GetSymbol()))
+
+	op, err = parseOperation("P ")
+	require.NoError(t, err)
+
+	operatedTape = op(machine.NewTape())
+	require.Equal(t, " ", string(operatedTape.GetSymbol()))
 }
 
 func Test_ParseOpreration_Invalid(t *testing.T) {
