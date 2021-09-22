@@ -11,7 +11,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func Test_ParseOpreration_RightLeft(t *testing.T) {
+func Test_ParseOpreration_RightLeftNoOp(t *testing.T) {
 	op, err := parseOperation("R")
 	require.NoError(t, err)
 	require.Equal(t, getOperationName(machine.Right), getOperationName(op))
@@ -19,6 +19,10 @@ func Test_ParseOpreration_RightLeft(t *testing.T) {
 	op, err = parseOperation("L")
 	require.NoError(t, err)
 	require.Equal(t, getOperationName(machine.Left), getOperationName(op))
+
+	op, err = parseOperation("")
+	require.NoError(t, err)
+	require.Equal(t, getOperationName(machine.NoOp), getOperationName(op))
 }
 
 func Test_ParseOpreration_Invalid(t *testing.T) {

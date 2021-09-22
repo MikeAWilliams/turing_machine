@@ -7,10 +7,12 @@ import (
 )
 
 func parseOperation(op string) (machine.Operation, error) {
-	if "R" == op {
+	switch op {
+	case "":
+		return machine.NoOp, nil
+	case "R":
 		return machine.Right, nil
-	}
-	if "L" == op {
+	case "L":
 		return machine.Left, nil
 	}
 	return nil, errors.New("Not implmemented")
