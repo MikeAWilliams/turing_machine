@@ -20,3 +20,12 @@ func Test_Parse_Valid_TwoLine(t *testing.T) {
 	require.NoError(t, err)
 	require.Equal(t, 2, result.GetRowCount())
 }
+
+func Test_Parse_Valid_PretyText(t *testing.T) {
+	result, err := parse.Machine(`
+b   1   R,P0    b
+b   0   R,P1    b`, "   ")
+
+	require.NoError(t, err)
+	require.Equal(t, 2, result.GetRowCount())
+}

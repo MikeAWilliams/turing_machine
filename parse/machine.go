@@ -13,6 +13,10 @@ func Machine(machineText string, lineDelimitor string) (machine.Machine, error) 
 	var initialConfig string
 	var configurations []machine.ConfigOP
 	for _, line := range lines {
+		if 0 == len(line) {
+			continue
+		}
+
 		row, newRunningConfig, err := parseLine(line, lineDelimitor, runningConfig)
 		if nil != err {
 			return machine.Machine{}, err
