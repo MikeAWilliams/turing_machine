@@ -21,7 +21,7 @@ func Test_Parse_Valid_TwoLine(t *testing.T) {
 	require.Equal(t, 2, result.GetRowCount())
 }
 
-func Test_Parse_Valid_PretyText(t *testing.T) {
+func Test_Parse_Valid_MultipleLinesRealTabs(t *testing.T) {
 	result, err := parse.Machine(`
 b   NONE   R,P0    b
 b   1   R,P0    b
