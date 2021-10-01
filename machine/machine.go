@@ -48,6 +48,14 @@ type Machine struct {
 	operationRow         int
 }
 
+func (m Machine) GetRowCount() int {
+	var result int
+	for _, rows := range m.rows {
+		result += len(rows)
+	}
+	return result
+}
+
 func (m Machine) Operate() (Machine, error) {
 	if nil != m.midOperationRow {
 		return m.continueOperate()

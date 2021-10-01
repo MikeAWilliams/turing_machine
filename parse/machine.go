@@ -13,14 +13,15 @@ func Machine(machineText string, lineDelimitor string) (machine.Machine, error) 
 	var initialConfig string
 	var configurations []machine.ConfigOP
 	for _, line := range lines {
-		row, runningConfig, err := parseLine(line, lineDelimitor, runningConfig)
+		row, newRunningConfig, err := parseLine(line, lineDelimitor, runningConfig)
 		if nil != err {
 			return machine.Machine{}, err
 		}
 		if 0 == len(configurations) {
-			initialConfig = runningConfig
+			initialConfig = newRunningConfig
 		}
 		configurations = append(configurations, row)
+		runningConfig = newRunningConfig
 	}
 	return machine.NewMachine(initialConfig, configurations), nil
 }
