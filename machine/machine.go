@@ -19,6 +19,22 @@ type ConfigOP struct {
 	row           OperationRow
 }
 
+func (c ConfigOP) GetConfigurationName() string {
+	return c.configuration
+}
+
+func (c ConfigOP) GetFinalConfigurationName() string {
+	return c.row.finalConfiguration
+}
+
+func (c ConfigOP) GetSymbolMatch() SymbolMatch {
+	return c.row.symbolMatch
+}
+
+func (c ConfigOP) GetOperationsCount() int {
+	return len(c.row.operations.operations)
+}
+
 func NewConfig(configuration string, row OperationRow) ConfigOP {
 	return ConfigOP{configuration: configuration, row: row}
 }
