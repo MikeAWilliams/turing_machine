@@ -8,8 +8,21 @@ import (
 	"github.com/MikeAWilliams/turing_machine/machine"
 )
 
-func parseLine(line string, delimiter string, runningConfigName string) (machine.ConfigOP, string, error) {
+func splitLine(line string, delimiter string) []string {
 	parts := strings.Split(line, delimiter)
+	var result []string
+	for index, part := range parts {
+		if 0 == index {
+			result = append(result, part)
+		} else if len(part) > 0 {
+			result = append(result, part)
+		}
+	}
+	return result
+}
+
+func parseLine(line string, delimiter string, runningConfigName string) (machine.ConfigOP, string, error) {
+	parts := splitLine(line, delimiter)
 	if 4 != len(parts) {
 		return machine.ConfigOP{}, "", fmt.Errorf("found %v parts for configuration line 4 required", len(parts))
 	}

@@ -1,5 +1,6 @@
 package machine
 
+// The annotated Turing page 81
 func TuringMachine1() Machine {
 	none := SimpleSymbolMatch(' ')
 	return NewMachine("b",
@@ -11,6 +12,7 @@ func TuringMachine1() Machine {
 		})
 }
 
+// The annotated Turing page 84
 func TuringMachine2() Machine {
 	none := SimpleSymbolMatch(' ')
 	zero := SimpleSymbolMatch('0')
@@ -23,6 +25,7 @@ func TuringMachine2() Machine {
 		})
 }
 
+// The annotated Turing page 87
 func TuringMachine3() Machine {
 	none := SimpleSymbolMatch(' ')
 	zero := SimpleSymbolMatch('0')

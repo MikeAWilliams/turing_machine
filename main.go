@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/MikeAWilliams/turing_machine/machine"
+	"github.com/MikeAWilliams/turing_machine/parse"
 	"github.com/fatih/color"
 )
 
@@ -38,6 +39,6 @@ func executeOperations(machine machine.Machine, n int) {
 func main() {
 	fmt.Println("Hello Dr. Turing")
 
-	machine := machine.TuringMachine3()
+	machine := parse.TuringMachine3()
 	executeOperations(machine, 1000)
 }

@@ -23,9 +23,9 @@ func Test_Parse_Valid_TwoLine(t *testing.T) {
 
 func Test_Parse_Valid_MultipleLinesRealTabs(t *testing.T) {
 	result, err := parse.Machine(`
-b   NONE   R,P0    b
-b   1   R,P0    b
-b   0   R,P1    b`, "   ")
+b   NONE    R,P0    b
+b   1       R,P0    b
+b   0       R,P1    b`, " ")
 
 	require.NoError(t, err)
 	require.Equal(t, 3, result.GetRowCount())

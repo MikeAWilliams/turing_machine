@@ -23,6 +23,10 @@ func Test_ParseOpreration_RightLeftNoOp(t *testing.T) {
 	op, err = parseOperation("")
 	require.NoError(t, err)
 	require.Equal(t, getOperationName(machine.NoOp), getOperationName(op))
+
+	op, err = parseOperation("N")
+	require.NoError(t, err)
+	require.Equal(t, getOperationName(machine.NoOp), getOperationName(op))
 }
 
 func Test_ParseOpreration_Print(t *testing.T) {

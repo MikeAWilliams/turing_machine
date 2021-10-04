@@ -9,6 +9,8 @@ import (
 
 func parseOperation(op string) (machine.Operation, error) {
 	switch op {
+	case "N":
+		return machine.NoOp, nil
 	case "":
 		return machine.NoOp, nil
 	case "R":
