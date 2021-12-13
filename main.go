@@ -3,42 +3,28 @@ package main
 import (
 	"fmt"
 
-	"github.com/MikeAWilliams/turing_machine/machine"
+	"github.com/MikeAWilliams/turing_machine/console"
 	"github.com/MikeAWilliams/turing_machine/parse"
-	"github.com/fatih/color"
 )
-
-func executeOperations(machine machine.Machine, n int) {
-	for i := 0; i < n; i++ {
-		state := machine.StateReport()
-		fmt.Printf("%v ", i)
-		for j := 0; j < state.SquareIndex; j++ {
-			fmt.Printf("%v", string(state.Squares[j]))
-		}
-		redText := color.New(color.FgRed, color.Bold)
-		currentSquare := state.Squares[state.SquareIndex]
-		if ' ' == currentSquare {
-			currentSquare = '_'
-		}
-		redText.Printf("%v", string(currentSquare))
-		for j := state.SquareIndex + 1; j < len(state.Squares); j++ {
-			fmt.Printf("%v", string(state.Squares[j]))
-		}
-		fmt.Printf(" %v %v %v \n", state.CurrentConfiguration, state.OperationRow, state.OperationColumn)
-
-		tmpMachine, err := machine.Operate()
-		if nil != err {
-			panic(err)
-		}
-		machine = tmpMachine
-	}
-	fmt.Printf("Done\nFinal Tape\n%v", machine.TapeAsString())
-
-}
 
 func main() {
 	fmt.Println("Hello Dr. Turing")
 
-	machineParse := parse.TuringMachine3()
-	executeOperations(machineParse, 1000)
+	machine, err := parse.Machine(`
+b~None        ~Pə,R,Pə,R,P0,R,R,P0,L,L~o
+o~1           ~R,Px,L,L,L             ~o
+ ~0           ~N                      ~q
+q~Any (0 or 1)~R,R                    ~q
+ ~None        ~P1,L                   ~p
+p~x           ~E,R                    ~q
+ ~ə           ~R                      ~f
+ ~None        ~L,L                    ~p
+f~Any         ~R,R                    ~f
+ ~None        ~P0,L,L                 ~o`, "~")
+
+	if nil != err {
+		panic(err)
+	}
+
+	console.ExecuteOperations(machine, 1000)
 }
