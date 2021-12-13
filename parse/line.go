@@ -27,7 +27,7 @@ func parseLine(line string, delimiter string, runningConfigName string) (machine
 		return machine.ConfigOP{}, "", fmt.Errorf("found %v parts for configuration line 4 required", len(parts))
 	}
 
-	configName := parts[0]
+	configName := strings.TrimSpace(parts[0])
 	if 0 == len(configName) && 0 == len(runningConfigName) {
 		return machine.ConfigOP{}, "", errors.New("both line config name and running config name are empty")
 	}

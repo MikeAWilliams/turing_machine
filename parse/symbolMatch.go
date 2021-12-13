@@ -13,38 +13,38 @@ func parseSymbolMatch(text string) (machine.SymbolMatch, error) {
 		return machine.SimpleSymbolMatch(' '), nil
 	}
 
-	if strings.EqualFold("none", text) {
+	if strings.EqualFold("none", trimmed) {
 		return machine.SimpleSymbolMatch(' '), nil
 	}
 
-	if strings.EqualFold("any", text) {
+	if strings.EqualFold("any", trimmed) {
 		return machine.AnyNonBlankSymbolMatch, nil
 	}
 
-	if strings.HasPrefix(strings.ToLower(text), "any (") {
-		setStartIndex := strings.Index(text, "(")
+	if strings.HasPrefix(strings.ToLower(trimmed), "any (") {
+		setStartIndex := strings.Index(trimmed, "(")
 		if -1 == setStartIndex {
 			return nil, errors.New("invalid any statement, missing (")
 		}
-		setStopIndex := strings.Index(text, ")")
+		setStopIndex := strings.Index(trimmed, ")")
 		if -1 == setStopIndex {
 			return nil, errors.New("invalid any statement, missing )")
 		}
-		orIndex := strings.Index(text, "or")
+		orIndex := strings.Index(trimmed, "or")
 		if -1 != orIndex {
-			first := strings.TrimSpace(text[setStartIndex+1 : orIndex])
+			first := strings.TrimSpace(trimmed[setStartIndex+1 : orIndex])
 			firstRunes := []rune(first)
 			if 1 != len(firstRunes) {
 				return nil, errors.New("invalid any statement, left of or invalid")
 			}
-			second := strings.TrimSpace(text[orIndex+2 : setStopIndex])
+			second := strings.TrimSpace(trimmed[orIndex+2 : setStopIndex])
 			secondRunes := []rune(second)
 			if 1 != len(secondRunes) {
 				return nil, errors.New("invalid any statement, right of or invalid")
 			}
 			return machine.SetSymbolMatch(append(firstRunes, secondRunes...)), nil
 		} else {
-			betweenParens := text[setStartIndex+1 : setStopIndex]
+			betweenParens := trimmed[setStartIndex+1 : setStopIndex]
 			split := strings.Split(betweenParens, ",")
 			toMatch := make([]rune, len(split))
 			for splitIndex, symbol := range split {
@@ -59,7 +59,7 @@ func parseSymbolMatch(text string) (machine.SymbolMatch, error) {
 
 	}
 
-	runes := []rune(text)
+	runes := []rune(trimmed)
 	if 1 == len(runes) {
 		return machine.SimpleSymbolMatch(runes[0]), nil
 	}

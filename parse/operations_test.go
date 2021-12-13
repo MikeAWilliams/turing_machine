@@ -49,7 +49,7 @@ func Test_ParseOpreration_Invalid(t *testing.T) {
 }
 
 func Test_ParseOperations_General(t *testing.T) {
-	operations, err := parseOperations("L,R,,Px,P ,")
+	operations, err := parseOperations("L,R,,Px,P ,      ")
 
 	require.NoError(t, err)
 	require.Equal(t, 6, len(operations))

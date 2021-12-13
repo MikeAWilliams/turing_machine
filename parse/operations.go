@@ -28,6 +28,7 @@ func parseOperation(op string) (machine.Operation, error) {
 }
 
 func parseOperations(operations string) ([]machine.Operation, error) {
+	operations = strings.TrimSpace(operations)
 	opStrings := strings.Split(operations, ",")
 	result := make([]machine.Operation, len(opStrings))
 	for index, op := range opStrings {

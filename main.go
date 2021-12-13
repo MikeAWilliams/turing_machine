@@ -39,6 +39,6 @@ func executeOperations(machine machine.Machine, n int) {
 func main() {
 	fmt.Println("Hello Dr. Turing")
 
-	machine := parse.TuringMachine3()
-	executeOperations(machine, 1000)
+	machineParse := parse.TuringMachine3()
+	executeOperations(machineParse, 1000)
 }
