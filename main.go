@@ -26,5 +26,5 @@ f~Any         ~R,R                    ~f
 		panic(err)
 	}
 
-	console.ExecuteOperations(machine, 1000)
+	console.ExecuteInteractive(machine)
 }

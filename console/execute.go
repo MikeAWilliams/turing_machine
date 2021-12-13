@@ -5,6 +5,8 @@ import (
 
 	"github.com/MikeAWilliams/turing_machine/machine"
 	"github.com/fatih/color"
+
+	"github.com/eiannone/keyboard"
 )
 
 func outputState(state machine.StateReport, row int) {
@@ -36,4 +38,44 @@ func ExecuteOperations(machine machine.Machine, n int) {
 		machine = tmpMachine
 	}
 	fmt.Printf("Done\nFinal Tape\n%v", machine.TapeAsString())
+}
+
+func ExecuteInteractive(currentMachine machine.Machine) {
+	if err := keyboard.Open(); err != nil {
+		panic(err)
+	}
+	defer func() {
+		_ = keyboard.Close()
+	}()
+
+	fmt.Println("Press b to pop state. q to quit. Any other key advances")
+	row := 0
+	var machineStack []machine.Machine
+	machineStack = append(machineStack, currentMachine)
+	for {
+		state := currentMachine.StateReport()
+		outputState(state, row)
+
+		key, _, err := keyboard.GetKey()
+		if err != nil {
+			panic(err)
+		}
+		switch key {
+		case 'q':
+			return
+		case 'b':
+			lastIndex := len(machineStack) - 1
+			currentMachine = machineStack[lastIndex]
+			machineStack = machineStack[:lastIndex]
+			row--
+		default:
+			tmpMachine, err := currentMachine.Operate()
+			if nil != err {
+				panic(err)
+			}
+			machineStack = append(machineStack, currentMachine)
+			currentMachine = tmpMachine
+			row++
+		}
+	}
 }
